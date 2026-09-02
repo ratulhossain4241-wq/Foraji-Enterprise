@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!-- admin/products.html — পণ্য তালিকা পেজ -->
+<html lang="bn" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>পণ্য তালিকা — ফরাজী এন্টারপ্রাইজ অ্যাডমিন</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script src="config.js"></script>
+
+  <link rel="stylesheet" href="css/admin-variables.css" />
+  <link rel="stylesheet" href="css/admin-base.css" />
+  <link rel="stylesheet" href="css/admin-layout.css" />
+
+  <style>
+    /* Products তালিকা স্পেসিফিক (সেকশন ১১-৬: same page-এই ডিফাইন) */
+    .products-toolbar {
+      display: flex;
+      gap: var(--space-3);
+      margin-bottom: var(--space-5);
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .products-toolbar .search-box {
+      flex: 1;
+      min-width: 220px;
+    }
+    .products-toolbar .filter-select {
+      min-width: 160px;
+    }
+    .product-thumb {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      object-fit: cover;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-color);
+    }
+    .product-name-cell {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+    .product-name-cell .name-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .product-name-cell .p-name {
+      font-weight: var(--font-weight-semibold);
+      color: var(--text-primary);
+    }
+    .product-name-cell .p-code {
+      font-size: var(--font-size-xs);
+      color: var(--text-muted);
+    }
+    .row-actions {
+      display: flex;
+      gap: var(--space-2);
+    }
+    @media (max-width: 640px) {
+      .products-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .products-toolbar .search-box,
+      .products-toolbar .filter-select {
+        min-width: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-layout-wrapper" id="admin-layout"></div>
+
+  <script type="module" src="js/products.js"></script>
+</body>
+</html>

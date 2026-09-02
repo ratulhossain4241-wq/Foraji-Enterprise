@@ -1,0 +1,50 @@
+# .gitignore
+# ================================================================
+# গুরুত্বপূর্ণ: config.js কখনো commit হবে না — এতে সব সিক্রেট থাকে।
+# শুধুমাত্র config.example.js commit হবে (placeholder সহ)।
+# ================================================================
+
+# Environment / Secrets
+config.js
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# Node / Package managers (ভবিষ্যতে যদি লাগে)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Editor / OS
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Build / Cache
+dist/
+build/
+.cache/
+.parcel-cache/
+.tmp/
+
+# Logs
+logs/
+*.log
+
+# Firebase local emulator
+.firebase/
+firebase-debug.log
+firestore-debug.log
+
+# Miscellaneous
+*.bak
+*.orig

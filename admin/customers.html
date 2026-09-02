@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!-- admin/customers.html — গ্রাহক তালিকা পেজ -->
+<!-- JS ফাইল (customers.js) ব্যাচ ৬-এ দেওয়া হয়েছে -->
+<html lang="bn" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>গ্রাহক তালিকা — ফরাজী এন্টারপ্রাইজ অ্যাডমিন</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script src="config.js"></script>
+
+  <link rel="stylesheet" href="css/admin-variables.css" />
+  <link rel="stylesheet" href="css/admin-base.css" />
+  <link rel="stylesheet" href="css/admin-layout.css" />
+
+  <style>
+    /* Customers পেজ স্পেসিফিক — সেকশন ১১-৬ */
+    .orders-toolbar {
+      display: flex;
+      gap: var(--space-3);
+      margin-bottom: var(--space-5);
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .orders-toolbar .search-box {
+      flex: 1;
+      min-width: 200px;
+    }
+    @media (max-width: 640px) {
+      .orders-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-layout-wrapper" id="admin-layout"></div>
+
+  <script type="module" src="js/customers.js"></script>
+</body>
+</html>

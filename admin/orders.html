@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<!-- admin/orders.html — অর্ডার তালিকা পেজ (মাল্টি-আইটেম সাপোর্ট) -->
+<html lang="bn" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>অর্ডার — ফরাজী এন্টারপ্রাইজ অ্যাডমিন</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script src="config.js"></script>
+
+  <link rel="stylesheet" href="css/admin-variables.css" />
+  <link rel="stylesheet" href="css/admin-base.css" />
+  <link rel="stylesheet" href="css/admin-layout.css" />
+
+  <style>
+    /* Orders পেজ স্পেসিফিক — সেকশন ১১-৬ */
+    .orders-toolbar {
+      display: flex;
+      gap: var(--space-3);
+      margin-bottom: var(--space-5);
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .orders-toolbar .search-box {
+      flex: 1;
+      min-width: 200px;
+    }
+    .orders-toolbar .filter-select {
+      min-width: 150px;
+    }
+
+    /* Expandable row */
+    .order-row {
+      cursor: pointer;
+      transition: background var(--transition-fast);
+    }
+    .order-row:hover {
+      background: var(--bg-secondary);
+    }
+    .order-row .expand-icon {
+      transition: transform var(--transition-fast);
+      display: inline-flex;
+    }
+    .order-row.expanded .expand-icon {
+      transform: rotate(90deg);
+    }
+    .order-items-row {
+      display: none;
+    }
+    .order-items-row.visible {
+      display: table-row;
+    }
+    .order-items-row td {
+      padding: 0;
+      background: var(--bg-secondary);
+    }
+    .order-items-inner {
+      padding: var(--space-4) var(--space-6);
+      border-right: 3px solid var(--brand-primary);
+    }
+    .order-items-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--font-size-sm);
+    }
+    .order-items-table th {
+      text-align: right;
+      padding: var(--space-2) var(--space-3);
+      color: var(--text-tertiary);
+      font-weight: var(--font-weight-medium);
+      border-bottom: 1px solid var(--border-color);
+    }
+    .order-items-table td {
+      padding: var(--space-2) var(--space-3);
+      border-bottom: 1px solid var(--border-color);
+      background: transparent;
+    }
+    .order-items-table tr:last-child td {
+      border-bottom: none;
+    }
+    .order-items-total {
+      text-align: left;
+      padding-top: var(--space-3);
+      font-weight: var(--font-weight-bold);
+      color: var(--brand-primary);
+    }
+
+    /* Status update select */
+    .status-select {
+      padding: var(--space-1) var(--space-2);
+      font-size: var(--font-size-xs);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-family-base);
+      cursor: pointer;
+    }
+
+    /* Order detail modal */
+    .order-detail-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--bg-overlay);
+      z-index: var(--z-modal);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-4);
+    }
+    .order-detail-overlay.show {
+      display: flex;
+    }
+    .order-detail-modal {
+      background: var(--bg-elevated);
+      border-radius: var(--radius-xl);
+      padding: var(--space-6);
+      max-width: 600px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-xl);
+    }
+    .order-detail-modal h3 {
+      margin-bottom: var(--space-4);
+    }
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: var(--space-2) 0;
+      border-bottom: 1px solid var(--border-color);
+      font-size: var(--font-size-sm);
+    }
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+    .detail-label {
+      color: var(--text-tertiary);
+    }
+    .detail-value {
+      font-weight: var(--font-weight-medium);
+      color: var(--text-primary);
+    }
+    .detail-close {
+      float: left;
+    }
+
+    @media (max-width: 640px) {
+      .orders-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .order-items-inner {
+        padding: var(--space-3);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-layout-wrapper" id="admin-layout"></div>
+
+  <script type="module" src="js/orders.js"></script>
+</body>
+</html>

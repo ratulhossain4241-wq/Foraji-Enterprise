@@ -1,11 +1,11 @@
 // frontend/js/home.js
 // ================================================================
-// Frontend — হোম পেজ লজিক
+// Frontend — হোম পেজ লজিক (সংশোধিত)
 // ----------------------------------------------------------------
-// ক্যাটাগরি ও জনপ্রিয় পণ্য Firestore থেকে লোড করে রেন্ডার করে।
-//
-// সেকশন ১১(১): শুধু orderBy + limit — composite index নেই।
-// সেকশন ১১(৩): event delegation — cart button container-এ একবার।
+// সেকশন ১১(১) ফিক্স: কোনো query-তে where + orderBy ভিন্ন ফিল্ডে নেই।
+//   সব sort এবং slice ক্লায়েন্ট-সাইডে করা হয়েছে (Composite Index মুক্ত)।
+// সেকশন ১১(৩): add-to-cart বাটনে ইভেন্ট ডেলিগেশন একবারই বাঁধা।
+// সেকশন ১১(১১): ফুটারের WhatsApp ও Telegram লিংক window.__ENV__ থেকে inject।
 // ================================================================
 
 import { renderHeader } from "./header.js";
@@ -16,8 +16,6 @@ import {
   getDocs,
   query,
   where,
-  orderBy,
-  limit,
 } from "./firebase-config.js";
 import {
   toBengaliNumber,
@@ -27,7 +25,7 @@ import {
   placeholderImage,
 } from "./utils.js";
 
-// ক্যাটাগরি আইকন (গ্রুপ অনুযায়ী)
+// ৬টি মূল গ্রুপের আইকন ম্যাপিং
 const GROUP_ICONS = {
   "gas-stove": "🔥",
   "gas-cylinder": "🛢️",
@@ -40,29 +38,53 @@ const GROUP_ICONS = {
 // ---------- Init ----------
 (async function init() {
   renderHeader();
+  setupFooterContactLinks();
   await Promise.all([loadCategories(), loadFeaturedProducts()]);
   bindProductEvents();
 })();
 
-// ---------- Categories ----------
+// ---------- Footer Link Injection (window.__ENV__ থেকে) ----------
+function setupFooterContactLinks() {
+  const waNumber = window.__ENV__?.WHATSAPP_NUMBER;
+  const tgUser = window.__ENV__?.TELEGRAM_USERNAME;
+
+  const waLinkEl = document.getElementById("footer-whatsapp-link");
+  const tgLinkEl = document.getElementById("footer-telegram-link");
+
+  if (waLinkEl) {
+    waLinkEl.href = waNumber ? `https://wa.me/${waNumber}` : "#";
+    if (!waNumber) waLinkEl.style.display = "none";
+  }
+  if (tgLinkEl) {
+    tgLinkEl.href = tgUser ? `https://t.me/${tgUser}` : "#";
+    if (!tgUser) tgLinkEl.style.display = "none";
+  }
+}
+
+// ---------- Categories লোড (সেকশন ১১-১: শুধু where, client-side sort) ----------
 async function loadCategories() {
   const container = document.getElementById("home-categories");
+  if (!container) return;
+
   try {
     const q = query(
       collection(db, "categories"),
-      where("status", "==", "active"),
-      orderBy("name"),
-      limit(6)
+      where("status", "==", "active")
     );
     const snap = await getDocs(q);
 
     if (snap.empty) {
-      container.innerHTML = `<p class="text-muted text-center" style="grid-column:1/-1;">ক্যাটাগরি লোড হচ্ছে...</p>`;
+      container.innerHTML = `<p class="text-muted text-center" style="grid-column:1/-1;">ক্যাটাগরি পাওয়া যায়নি</p>`;
       return;
     }
 
-    container.innerHTML = snap.docs.map((d) => {
-      const c = d.data();
+    // Client-side sort by name (বাংলা বর্ণমালা অনুযায়ী)
+    const categories = snap.docs
+      .map((d) => ({ id: d.id, ...d.data() }))
+      .sort((a, b) => (a.name || "").localeCompare(b.name || "", "bn"))
+      .slice(0, 6);
+
+    container.innerHTML = categories.map((c) => {
       const icon = GROUP_ICONS[c.groupName] || "📦";
       return `
         <a href="category.html?group=${encodeURIComponent(c.groupName || '')}" class="category-card">
@@ -77,16 +99,15 @@ async function loadCategories() {
   }
 }
 
-// ---------- Featured Products ----------
+// ---------- Featured Products লোড (সেকশন ১১-১: শুধু where, client-side sort) ----------
 async function loadFeaturedProducts() {
   const container = document.getElementById("home-products");
+  if (!container) return;
+
   try {
-    // published পণ্য, সর্বশেষ যোগ করা ৮টি
     const q = query(
       collection(db, "products"),
-      where("status", "==", "published"),
-      orderBy("createdAt", "desc"),
-      limit(8)
+      where("status", "==", "published")
     );
     const snap = await getDocs(q);
 
@@ -99,8 +120,17 @@ async function loadFeaturedProducts() {
       return;
     }
 
-    container.innerHTML = snap.docs.map((d) => {
-      const p = d.data();
+    // Client-side sort: createdAt desc (নতুন পণ্য সবার আগে)
+    const products = snap.docs
+      .map((d) => ({ id: d.id, ...d.data() }))
+      .sort((a, b) => {
+        const timeA = a.createdAt?.toDate ? a.createdAt.toDate().getTime() : 0;
+        const timeB = b.createdAt?.toDate ? b.createdAt.toDate().getTime() : 0;
+        return timeB - timeA;
+      })
+      .slice(0, 8);
+
+    container.innerHTML = products.map((p) => {
       const hasDiscount = p.oldPrice && p.oldPrice > p.price;
       const discountPct = hasDiscount ? Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100) : 0;
       const isService = !!p.isService;
@@ -108,7 +138,7 @@ async function loadFeaturedProducts() {
 
       return `
         <div class="product-card">
-          <a href="product.html?id=${encodeURIComponent(d.id)}" class="product-card-image">
+          <a href="product.html?id=${encodeURIComponent(p.id)}" class="product-card-image">
             <img src="${escapeHtml(p.mainImage || placeholderImage())}" alt="${escapeHtml(p.name)}"
                  loading="lazy" onerror="this.src='${placeholderImage()}'" />
             <div class="product-card-badges">
@@ -119,7 +149,7 @@ async function loadFeaturedProducts() {
           </a>
           <div class="product-card-body">
             <div class="product-card-category">${escapeHtml(p.categoryName || "")}</div>
-            <a href="product.html?id=${encodeURIComponent(d.id)}" class="product-card-name">${escapeHtml(p.name)}</a>
+            <a href="product.html?id=${encodeURIComponent(p.id)}" class="product-card-name">${escapeHtml(p.name)}</a>
             <div class="product-card-price">
               <span class="price-current">${formatCurrency(p.price)}</span>
               ${hasDiscount ? `<span class="price-old">${formatCurrency(p.oldPrice)}</span>` : ""}
@@ -129,7 +159,7 @@ async function loadFeaturedProducts() {
             ${stockOut
               ? `<button type="button" class="btn btn-secondary btn-block btn-sm" disabled>স্টক নেই</button>`
               : `<button type="button" class="btn btn-primary btn-block btn-sm add-to-cart-btn"
-                  data-product-id="${encodeURIComponent(d.id)}"
+                  data-product-id="${encodeURIComponent(p.id)}"
                   data-name="${escapeHtml(p.name)}"
                   data-price="${p.price}"
                   data-unit="${p.unit || 'piece'}"
@@ -152,9 +182,11 @@ async function loadFeaturedProducts() {
   }
 }
 
-// ---------- Cart Button Events (delegation — সেকশন ১১-৩) ----------
+// ---------- Cart Button Events (Event Delegation — সেকশন ১১-৩) ----------
 function bindProductEvents() {
   const container = document.getElementById("home-products");
+  if (!container) return;
+
   container.addEventListener("click", (e) => {
     const btn = e.target.closest(".add-to-cart-btn");
     if (!btn) return;

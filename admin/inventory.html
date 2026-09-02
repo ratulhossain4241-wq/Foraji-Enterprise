@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!-- admin/inventory.html — ইনভেন্টরি / স্টক ম্যানেজমেন্ট পেজ -->
+<html lang="bn" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ইনভেন্টরি — ফরাজী এন্টারপ্রাইজ অ্যাডমিন</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script src="config.js"></script>
+
+  <link rel="stylesheet" href="css/admin-variables.css" />
+  <link rel="stylesheet" href="css/admin-base.css" />
+  <link rel="stylesheet" href="css/admin-layout.css" />
+
+  <style>
+    /* Inventory পেজ স্পেসিফিক — সেকশন ১১-৬ */
+    .inv-toolbar {
+      display: flex;
+      gap: var(--space-3);
+      margin-bottom: var(--space-5);
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .inv-toolbar .search-box {
+      flex: 1;
+      min-width: 200px;
+    }
+    .inv-toolbar .filter-select {
+      min-width: 150px;
+    }
+    .stock-input {
+      width: 90px;
+      text-align: center;
+      padding: var(--space-1) var(--space-2);
+      font-size: var(--font-size-sm);
+    }
+    .stock-low {
+      color: var(--danger);
+      font-weight: var(--font-weight-bold);
+    }
+    .stock-ok {
+      color: var(--success);
+    }
+    .stock-zero {
+      color: var(--danger);
+      background: var(--danger-light);
+      padding: 2px var(--space-2);
+      border-radius: var(--radius-full);
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-semibold);
+    }
+    .inv-summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-4);
+      margin-bottom: var(--space-5);
+    }
+    .inv-summary-card {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: var(--space-4);
+      text-align: center;
+    }
+    .inv-summary-card .num {
+      font-size: var(--font-size-2xl);
+      font-weight: var(--font-weight-bold);
+    }
+    .inv-summary-card .label {
+      font-size: var(--font-size-sm);
+      color: var(--text-tertiary);
+      margin-top: var(--space-1);
+    }
+    @media (max-width: 640px) {
+      .inv-toolbar { flex-direction: column; align-items: stretch; }
+      .inv-summary { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-layout-wrapper" id="admin-layout"></div>
+
+  <script type="module" src="js/inventory.js"></script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<!-- frontend/category.html — ক্যাটাগরি ব্রাউজ পেজ -->
+<html lang="bn" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ক্যাটাগরি সমূহ — ফরাজী এন্টারপ্রাইজ</title>
+  <meta name="description" content="ফরাজী এন্টারপ্রাইজের সব ক্যাটাগরি ব্রাউজ করুন — গ্যাসের চুলা, সিলিন্ডার, স্পেয়ার পার্টস, নিরাপত্তা সামগ্রী ও সার্ভিস।" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Config (সিক্রেট) — সবার আগে -->
+  <script src="config.js"></script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+
+  <style>
+    /* Category Page Styles — সেকশন ১১-৬ */
+    .group-tabs {
+      display: flex;
+      gap: var(--space-2);
+      overflow-x: auto;
+      padding-bottom: var(--space-3);
+      margin-bottom: var(--space-6);
+      -webkit-overflow-scrolling: touch;
+    }
+    .group-tab-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-4);
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-full);
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-medium);
+      color: var(--text-secondary);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all var(--transition-fast);
+    }
+    .group-tab-btn:hover {
+      border-color: var(--brand-primary);
+      color: var(--brand-primary);
+    }
+    .group-tab-btn.active {
+      background: var(--brand-primary);
+      border-color: var(--brand-primary);
+      color: #fff;
+    }
+
+    .subcat-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      margin-bottom: var(--space-6);
+    }
+    .subcat-pill {
+      padding: var(--space-1) var(--space-3);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      font-size: var(--font-size-xs);
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: all var(--transition-fast);
+    }
+    .subcat-pill:hover,
+    .subcat-pill.active {
+      background: var(--brand-primary-lighter);
+      color: var(--brand-primary-hover);
+      border-color: var(--brand-primary);
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div id="site-header"></div>
+
+  <main class="site-main">
+    <div class="container">
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" aria-label="ব্রেডক্রাম্ব">
+        <a href="index.html">হোম</a>
+        <span class="separator">/</span>
+        <span>ক্যাটাগরি সমূহ</span>
+      </nav>
+
+      <h1 class="page-title">📁 ক্যাটাগরি ব্রাউজ করুন</h1>
+
+      <!-- ৬টি মূল গ্রুপের ট্যাব বার -->
+      <div class="group-tabs" id="group-tabs-container">
+        <!-- JS inject করবে -->
+      </div>
+
+      <!-- নির্বাচিত গ্রুপের সাব-ক্যাটাগরি সমূহ -->
+      <div class="subcat-pills" id="subcat-pills-container">
+        <!-- JS inject করবে -->
+      </div>
+
+      <!-- নির্বাচিত ক্যাটাগরির পণ্য গ্রিড -->
+      <div class="section-header">
+        <h2 class="section-title" id="category-view-title">সব পণ্য</h2>
+      </div>
+
+      <div id="category-products-grid" class="products-grid">
+        <div class="loading-center" style="grid-column: 1/-1;">
+          <div class="spinner"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="28" height="28"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"/></svg>
+            <span style="font-weight:700; font-size: var(--font-size-lg);">ফরাজী এন্টারপ্রাইজ</span>
+          </div>
+          <p class="footer-desc">গ্যাসের চুলা, সিলিন্ডার, স্পেয়ার পার্টস ও রান্নাঘর সামগ্রীর বিশ্বস্ত দোকান। সেরা মানের পণ্য, সাশ্রয়ী মূল্য।</p>
+        </div>
+        <div>
+          <h4 class="footer-title">দ্রুত লিংক</h4>
+          <div class="footer-links">
+            <a href="index.html">হোম</a>
+            <a href="search.html">সব পণ্য</a>
+            <a href="category.html">ক্যাটাগরি</a>
+            <a href="cart.html">কার্ট</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-title">যোগাযোগ</h4>
+          <div class="footer-links">
+            <a href="#" id="footer-whatsapp-link" target="_blank" rel="noopener">WhatsApp</a>
+            <a href="#" id="footer-telegram-link" target="_blank" rel="noopener">Telegram</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        © ২০২৫ ফরাজী এন্টারপ্রাইজ। সর্বস্বত্ব সংরক্ষিত।
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="js/category.js"></script>
+</body>
+</html>

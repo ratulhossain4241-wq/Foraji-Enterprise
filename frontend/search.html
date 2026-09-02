@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<!-- frontend/search.html — পণ্য অনুসন্ধান ও তালিকা পেজ -->
+<html lang="bn" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>পণ্য অনুসন্ধান — ফরাজী এন্টারপ্রাইজ</title>
+  <meta name="description" content="ফরাজী এন্টারপ্রাইজের সব ধরণের গ্যাসের চুলা, সিলিন্ডার, স্পেয়ার পার্টস ও রান্নাঘর সামগ্রী খুঁজুন।" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Config (সিক্রেট) — সবার আগে -->
+  <script src="config.js"></script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+
+  <style>
+    /* Search Page Layout — সেকশন ১১-৬ */
+    .search-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: var(--space-6);
+      align-items: start;
+    }
+
+    .filter-sidebar {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      position: sticky;
+      top: calc(var(--header-height) + var(--space-4));
+    }
+    /* সেকশন ১১(৫): Mobile-এ sticky override */
+    @media (max-width: 767px) {
+      .search-layout {
+        grid-template-columns: 1fr;
+      }
+      .filter-sidebar {
+        position: static;
+        margin-bottom: var(--space-4);
+      }
+    }
+
+    .filter-title {
+      font-size: var(--font-size-base);
+      font-weight: var(--font-weight-bold);
+      margin-bottom: var(--space-4);
+      padding-bottom: var(--space-3);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .filter-group {
+      margin-bottom: var(--space-5);
+    }
+    .filter-group-label {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-semibold);
+      color: var(--text-primary);
+      margin-bottom: var(--space-2);
+      display: block;
+    }
+
+    .filter-chips {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .filter-chip-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: var(--font-size-sm);
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+    .filter-chip-item input[type="checkbox"] {
+      cursor: pointer;
+    }
+
+    .price-range-inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-2);
+    }
+
+    .search-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      margin-bottom: var(--space-5);
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: var(--space-3) var(--space-4);
+    }
+
+    .search-results-count {
+      font-size: var(--font-size-sm);
+      color: var(--text-secondary);
+    }
+
+    .sort-select {
+      min-width: 170px;
+      padding: var(--space-2) var(--space-3);
+      font-size: var(--font-size-sm);
+    }
+
+    .mobile-filter-toggle {
+      display: none;
+      width: 100%;
+      margin-bottom: var(--space-4);
+    }
+    @media (max-width: 767px) {
+      .mobile-filter-toggle {
+        display: flex;
+      }
+      .filter-sidebar.hidden-mobile {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div id="site-header"></div>
+
+  <main class="site-main">
+    <div class="container">
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" aria-label="ব্রেডক্রাম্ব">
+        <a href="index.html">হোম</a>
+        <span class="separator">/</span>
+        <span>পণ্য অনুসন্ধান</span>
+      </nav>
+
+      <button type="button" class="btn btn-outline mobile-filter-toggle" id="mobile-filter-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+        ফিল্টার অপশন
+      </button>
+
+      <div class="search-layout">
+        <!-- সাইডবার ফিল্টার -->
+        <aside class="filter-sidebar hidden-mobile" id="filter-sidebar">
+          <div class="filter-title">
+            <span>ফিল্টার</span>
+            <button type="button" class="btn btn-sm btn-outline" id="clear-filters-btn" style="padding: 2px 8px; font-size: 11px;">রিসেট</button>
+          </div>
+
+          <!-- সার্চ ইনপুট -->
+          <div class="filter-group">
+            <label class="filter-group-label" for="search-input">নাম বা কোড</label>
+            <input type="text" id="search-input" class="form-input" placeholder="লিখে খুঁজুন..." />
+          </div>
+
+          <!-- ক্যাটাগরি ফিল্টার -->
+          <div class="filter-group">
+            <span class="filter-group-label">ক্যাটাগরি</span>
+            <div class="filter-chips" id="category-filters-container">
+              <span class="text-xs text-muted">লোড হচ্ছে...</span>
+            </div>
+          </div>
+
+          <!-- প্রাইস রেঞ্জ -->
+          <div class="filter-group">
+            <span class="filter-group-label">মূল্য সীমা (৳)</span>
+            <div class="price-range-inputs">
+              <input type="number" id="price-min" class="form-input" placeholder="সর্বনিম্ন" min="0" />
+              <input type="number" id="price-max" class="form-input" placeholder="সর্বোচ্চ" min="0" />
+            </div>
+          </div>
+
+          <!-- অন্যান্য সুইচ -->
+          <div class="filter-group">
+            <label class="filter-chip-item">
+              <input type="checkbox" id="in-stock-only" />
+              <span>শুধু স্টক আছে</span>
+            </label>
+            <label class="filter-chip-item" style="margin-top: var(--space-2);">
+              <input type="checkbox" id="warranty-only" />
+              <span>ওয়ারেন্টি সহ</span>
+            </label>
+            <label class="filter-chip-item" style="margin-top: var(--space-2);">
+              <input type="checkbox" id="service-only" />
+              <span>শুধু সেবা (Services)</span>
+            </label>
+          </div>
+        </aside>
+
+        <!-- ডানপাশ: প্রোডাক্ট গ্রিড -->
+        <section>
+          <div class="search-topbar">
+            <span class="search-results-count" id="results-count">লোড হচ্ছে...</span>
+            <div style="display: flex; align-items: center; gap: var(--space-2);">
+              <label for="sort-by" class="text-sm text-muted">সাজান:</label>
+              <select id="sort-by" class="form-select sort-select">
+                <option value="newest">নতুন পণ্য আগে</option>
+                <option value="price-asc">দাম: কম থেকে বেশি</option>
+                <option value="price-desc">দাম: বেশি থেকে কম</option>
+                <option value="name-asc">নাম (ক-ক্ষ)</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="search-results-grid" class="products-grid">
+            <div class="loading-center" style="grid-column: 1/-1;">
+              <div class="spinner"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="28" height="28"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"/></svg>
+            <span style="font-weight:700; font-size: var(--font-size-lg);">ফরাজী এন্টারপ্রাইজ</span>
+          </div>
+          <p class="footer-desc">গ্যাসের চুলা, সিলিন্ডার, স্পেয়ার পার্টস ও রান্নাঘর সামগ্রীর বিশ্বস্ত দোকান। সেরা মানের পণ্য, সাশ্রয়ী মূল্য।</p>
+        </div>
+        <div>
+          <h4 class="footer-title">দ্রুত লিংক</h4>
+          <div class="footer-links">
+            <a href="index.html">হোম</a>
+            <a href="search.html">সব পণ্য</a>
+            <a href="category.html">ক্যাটাগরি</a>
+            <a href="cart.html">কার্ট</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-title">যোগাযোগ</h4>
+          <div class="footer-links">
+            <a href="#" id="footer-whatsapp-link" target="_blank" rel="noopener">WhatsApp</a>
+            <a href="#" id="footer-telegram-link" target="_blank" rel="noopener">Telegram</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        © ২০২৫ ফরাজী এন্টারপ্রাইজ। সর্বস্বত্ব সংরক্ষিত।
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="js/search.js"></script>
+</body>
+                                                                           </html>

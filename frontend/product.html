@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<!-- frontend/product.html — একক পণ্যের সম্পূর্ণ বিবরণ ও রিভিউ পেজ -->
+<html lang="bn" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>পণ্যের বিবরণ — ফরাজী এন্টারপ্রাইজ</title>
+  <meta name="description" content="ফরাজী এন্টারপ্রাইজ থেকে পণ্যের বিস্তারিত বিবরণ, স্পেসিফিকেশন ও ওয়ারেন্টির তথ্য দেখুন।" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Config (সিক্রেট) — সবার আগে -->
+  <script src="config.js"></script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+
+  <style>
+    /* Product Details Layout — সেকশন ১১-৬ */
+    .product-detail-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-8);
+      align-items: start;
+      margin-bottom: var(--space-10);
+    }
+    @media (max-width: 767px) {
+      .product-detail-layout {
+        grid-template-columns: 1fr;
+        gap: var(--space-6);
+      }
+    }
+
+    /* গ্যালারি সেকশন */
+    .product-gallery {
+      position: sticky;
+      top: calc(var(--header-height) + var(--space-4));
+    }
+    /* সেকশন ১১(৫): মোবাইলে sticky override */
+    @media (max-width: 767px) {
+      .product-gallery {
+        position: static;
+      }
+    }
+    .main-image-box {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: var(--space-3);
+    }
+    .main-image-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: transform var(--transition-slow);
+    }
+    .thumbs-strip {
+      display: flex;
+      gap: var(--space-2);
+      overflow-x: auto;
+      padding-bottom: var(--space-2);
+      -webkit-overflow-scrolling: touch;
+    }
+    .thumb-item {
+      width: 70px;
+      height: 70px;
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      cursor: pointer;
+      flex-shrink: 0;
+      background: var(--bg-secondary);
+      transition: all var(--transition-fast);
+    }
+    .thumb-item:hover,
+    .thumb-item.active {
+      border-color: var(--brand-primary);
+      box-shadow: 0 0 0 2px var(--brand-primary-lighter);
+    }
+    .thumb-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* তথ্য সেকশন */
+    .product-info-box {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+    .product-main-title {
+      font-size: var(--font-size-3xl);
+      font-weight: var(--font-weight-bold);
+      color: var(--text-primary);
+      line-height: var(--line-height-tight);
+    }
+    @media (max-width: 767px) {
+      .product-main-title {
+        font-size: var(--font-size-2xl);
+      }
+    }
+    .product-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      font-size: var(--font-size-sm);
+      color: var(--text-tertiary);
+    }
+    .price-box {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-3);
+      padding: var(--space-4) 0;
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+    }
+    .price-large {
+      font-size: var(--font-size-3xl);
+      font-weight: var(--font-weight-bold);
+      color: var(--brand-primary);
+    }
+    .price-old-large {
+      font-size: var(--font-size-lg);
+      color: var(--text-muted);
+      text-decoration: line-through;
+    }
+
+    /* অ্যাকশন বার */
+    .purchase-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      margin-top: var(--space-2);
+      flex-wrap: wrap;
+    }
+    .purchase-actions .btn {
+      flex: 1;
+      min-width: 160px;
+    }
+
+    /* স্পেসিফিকেশন ও ওয়ারেন্টি কার্ড */
+    .info-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: var(--space-4);
+    }
+    .info-card-title {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-bold);
+      margin-bottom: var(--space-2);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      color: var(--text-primary);
+    }
+    .features-checklist {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      font-size: var(--font-size-sm);
+    }
+    .features-checklist li {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+    .features-checklist li::before {
+      content: "✓";
+      color: var(--success);
+      font-weight: var(--font-weight-bold);
+    }
+
+    /* ডিটেইলস ট্যাব ও রিভিউ */
+    .details-section {
+      border-top: 1px solid var(--border-color);
+      padding-top: var(--space-8);
+      margin-top: var(--space-6);
+    }
+    .specs-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--font-size-sm);
+      margin-top: var(--space-3);
+    }
+    .specs-table td {
+      padding: var(--space-3) var(--space-4);
+      border-bottom: 1px solid var(--border-color);
+    }
+    .specs-table tr:nth-child(even) {
+      background: var(--bg-secondary);
+    }
+    .specs-table td:first-child {
+      font-weight: var(--font-weight-semibold);
+      width: 35%;
+      color: var(--text-secondary);
+    }
+
+    /* রিভিউ ফর্ম */
+    .review-box {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      margin-top: var(--space-6);
+    }
+    .star-picker {
+      display: flex;
+      gap: var(--space-2);
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--border-color-strong);
+      margin-bottom: var(--space-3);
+    }
+    .star-picker .star.active {
+      color: var(--warning);
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div id="site-header"></div>
+
+  <main class="site-main">
+    <div class="container">
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" aria-label="ব্রেডক্রাম্ব">
+        <a href="index.html">হোম</a>
+        <span class="separator">/</span>
+        <a href="search.html">পণ্য</a>
+        <span class="separator">/</span>
+        <span id="breadcrumb-product-name">লোড হচ্ছে...</span>
+      </nav>
+
+      <!-- মূল কন্টেন্ট মাউন্ট পয়েন্ট -->
+      <div id="product-detail-mount">
+        <div class="loading-center">
+          <div class="spinner"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="28" height="28"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"/></svg>
+            <span style="font-weight:700; font-size: var(--font-size-lg);">ফরাজী এন্টারপ্রাইজ</span>
+          </div>
+          <p class="footer-desc">গ্যাসের চুলা, সিলিন্ডার, স্পেয়ার পার্টস ও রান্নাঘর সামগ্রীর বিশ্বস্ত দোকান। সেরা মানের পণ্য, সাশ্রয়ী মূল্য।</p>
+        </div>
+        <div>
+          <h4 class="footer-title">দ্রুত লিংক</h4>
+          <div class="footer-links">
+            <a href="index.html">হোম</a>
+            <a href="search.html">সব পণ্য</a>
+            <a href="category.html">ক্যাটাগরি</a>
+            <a href="cart.html">কার্ট</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-title">যোগাযোগ</h4>
+          <div class="footer-links">
+            <a href="#" id="footer-whatsapp-link" target="_blank" rel="noopener">WhatsApp</a>
+            <a href="#" id="footer-telegram-link" target="_blank" rel="noopener">Telegram</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        © ২০২৫ ফরাজী এন্টারপ্রাইজ। সর্বস্বত্ব সংরক্ষিত।
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="js/product.js"></script>
+</body>
+  </html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<!-- admin/index.html — Admin Login পেজ -->
+<html lang="bn" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>লগইন — ফরাজী এন্টারপ্রাইজ অ্যাডমিন</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Config (সিক্রেট) — সবার আগে -->
+  <script src="config.js"></script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/admin-variables.css" />
+  <link rel="stylesheet" href="css/admin-base.css" />
+
+  <style>
+    /* Login পেজের জন্য inline styles (শুধু এই পেজেই লাগে) */
+    .login-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-secondary);
+      padding: var(--space-4);
+    }
+    .login-card {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      padding: var(--space-10) var(--space-8);
+      width: 100%;
+      max-width: 420px;
+      box-shadow: var(--shadow-lg);
+    }
+    .login-brand {
+      text-align: center;
+      margin-bottom: var(--space-8);
+    }
+    .login-brand svg {
+      margin: 0 auto var(--space-3);
+      color: var(--brand-primary);
+    }
+    .login-brand h1 {
+      font-size: var(--font-size-xl);
+      color: var(--text-primary);
+    }
+    .login-brand p {
+      font-size: var(--font-size-sm);
+      color: var(--text-tertiary);
+      margin-top: var(--space-2);
+    }
+    .login-error {
+      background: var(--danger-light);
+      color: var(--danger);
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-md);
+      font-size: var(--font-size-sm);
+      margin-bottom: var(--space-5);
+      display: none;
+      text-align: center;
+    }
+    .login-error.visible {
+      display: block;
+    }
+    .login-btn {
+      width: 100%;
+      padding: var(--space-3);
+      font-size: var(--font-size-base);
+    }
+    @media (max-width: 480px) {
+      .login-card {
+        padding: var(--space-6) var(--space-5);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-page">
+    <div class="login-card">
+      <!-- ব্র্যান্ড লোগো (inline SVG — গ্যাস বার্নার + আগুনের শিখা) -->
+      <div class="login-brand">
+        <svg viewBox="0 0 48 48" fill="none" width="56" height="56" aria-hidden="true">
+          <!-- বার্নার বেস -->
+          <circle cx="24" cy="32" r="12" stroke="currentColor" stroke-width="2.5" fill="none"/>
+          <circle cx="24" cy="32" r="6" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          <!-- গ্যাস হোল (৪টি) -->
+          <circle cx="24" cy="23" r="1.5" fill="currentColor"/>
+          <circle cx="33" cy="32" r="1.5" fill="currentColor"/>
+          <circle cx="24" cy="41" r="1.5" fill="currentColor"/>
+          <circle cx="15" cy="32" r="1.5" fill="currentColor"/>
+          <!-- আগুনের শিখা -->
+          <path d="M24 4 C24 4 20 12 20 16 C20 18.2 21.8 20 24 20 C26.2 20 28 18.2 28 16 C28 12 24 4 24 4Z" fill="#F97316" opacity="0.9"/>
+          <path d="M24 8 C24 8 22 13 22 15 C22 16.1 22.9 17 24 17 C25.1 17 26 16.1 26 15 C26 13 24 8 24 8Z" fill="#FBBF24"/>
+        </svg>
+        <h1>ফরাজী এন্টারপ্রাইজ</h1>
+        <p>অ্যাডমিন প্যানেলে প্রবেশ করুন</p>
+      </div>
+
+      <!-- এরর মেসেজ -->
+      <div class="login-error" id="login-error" role="alert"></div>
+
+      <!-- লগইন ফর্ম -->
+      <form id="login-form" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="login-email">
+            <span class="required">*</span> ইমেইল
+          </label>
+          <input
+            type="email"
+            id="login-email"
+            class="form-input"
+            placeholder="admin@example.com"
+            required
+            autocomplete="email"
+          />
+          <div class="form-error" id="email-error">সঠিক ইমেইল দিন</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="login-password">
+            <span class="required">*</span> পাসওয়ার্ড
+          </label>
+          <input
+            type="password"
+            id="login-password"
+            class="form-input"
+            placeholder="পাসওয়ার্ড লিখুন"
+            required
+            autocomplete="current-password"
+            minlength="6"
+          />
+          <div class="form-error" id="password-error">পাসওয়ার্ড কমপক্ষে ৬ অক্ষর</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary login-btn" id="login-btn">
+          প্রবেশ করুন
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- JS (ES Module) -->
+  <script type="module" src="js/login.js"></script>
+</body>
+            </html>

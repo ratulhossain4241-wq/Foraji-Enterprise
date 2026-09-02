@@ -1,0 +1,152 @@
+/* frontend/css/variables.css */
+/* ================================================================
+   ফরাজী এন্টারপ্রাইজ — Frontend Design Tokens
+   ----------------------------------------------------------------
+   এই ফাইলটি সব কালার, স্পেসিং, ফন্ট, শ্যাডো, রেডিয়াস কেন্দ্রীভূতভাবে
+   ধারণ করে। ভবিষ্যতে থিম বদলাতে শুধু এই ফাইল বদলালেই সব পেজে
+   প্রভাব পড়বে। কোনো পেজে সরাসরি হেক্স কালার লিখা যাবে না।
+   ================================================================ */
+
+:root {
+  /* -------- ব্র্যান্ড কালার (আগুনের শিখা থিম) -------- */
+  --brand-primary: #EA580C;
+  --brand-primary-hover: #C2410C;
+  --brand-primary-light: #F97316;
+  --brand-primary-lighter: #FED7AA;
+  --brand-gradient: linear-gradient(135deg, #EA580C 0%, #F97316 100%);
+  --brand-gradient-hover: linear-gradient(135deg, #C2410C 0%, #EA580C 100%);
+
+  /* -------- সেকেন্ডারি (গাঢ় নীল/চারকোল) -------- */
+  --secondary-900: #0F172A;
+  --secondary-800: #1E293B;
+  --secondary-700: #334155;
+  --secondary-600: #475569;
+  --secondary-500: #64748B;
+
+  /* -------- লাইট মোড (ডিফল্ট) -------- */
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F8FAFC;
+  --bg-tertiary: #F1F5F9;
+  --bg-elevated: #FFFFFF;
+  --bg-overlay: rgba(15, 23, 42, 0.5);
+
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-tertiary: #64748B;
+  --text-inverse: #FFFFFF;
+  --text-muted: #94A3B8;
+
+  --border-color: #E2E8F0;
+  --border-color-strong: #CBD5E1;
+  --border-color-focus: var(--brand-primary);
+
+  /* -------- সেমান্টিক কালার -------- */
+  --success: #10B981;
+  --success-light: #D1FAE5;
+  --warning: #F59E0B;
+  --warning-light: #FEF3C7;
+  --danger: #EF4444;
+  --danger-light: #FEE2E2;
+  --info: #3B82F6;
+  --info-light: #DBEAFE;
+
+  /* -------- স্পেসিং স্কেল -------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* -------- বর্ডার রেডিয়াস -------- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+
+  /* -------- শ্যাডো -------- */
+  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 4px 6px rgba(15, 23, 42, 0.07), 0 2px 4px rgba(15, 23, 42, 0.04);
+  --shadow-lg: 0 10px 15px rgba(15, 23, 42, 0.08), 0 4px 6px rgba(15, 23, 42, 0.04);
+  --shadow-xl: 0 20px 25px rgba(15, 23, 42, 0.1), 0 8px 10px rgba(15, 23, 42, 0.04);
+  --shadow-brand: 0 8px 20px rgba(234, 88, 12, 0.25);
+
+  /* -------- ফন্ট -------- */
+  --font-family-base: 'Inter', 'Noto Sans Bengali', 'Hind Siliguri', system-ui, -apple-system, sans-serif;
+  --font-family-heading: 'Inter', 'Noto Sans Bengali', 'Hind Siliguri', sans-serif;
+
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 30px;
+  --font-size-4xl: 36px;
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+
+  /* -------- ট্রানজিশন -------- */
+  --transition-fast: 150ms ease;
+  --transition-base: 200ms ease;
+  --transition-slow: 300ms ease;
+
+  /* -------- z-index স্কেল -------- */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-header: 500;
+  --z-overlay: 900;
+  --z-modal: 1000;
+  --z-toast: 1100;
+
+  /* -------- লেআউট -------- */
+  --container-max-width: 1280px;
+  --header-height: 72px;
+  --header-height-mobile: 60px;
+}
+
+/* ================================================================
+   ডার্ক মোড — [data-theme="dark"] অ্যাট্রিবিউট <html>-এ বসালে সক্রিয় হয়
+   ================================================================ */
+[data-theme="dark"] {
+  --bg-primary: #0F172A;
+  --bg-secondary: #1E293B;
+  --bg-tertiary: #334155;
+  --bg-elevated: #1E293B;
+  --bg-overlay: rgba(0, 0, 0, 0.7);
+
+  --text-primary: #F8FAFC;
+  --text-secondary: #CBD5E1;
+  --text-tertiary: #94A3B8;
+  --text-inverse: #0F172A;
+  --text-muted: #64748B;
+
+  --border-color: #334155;
+  --border-color-strong: #475569;
+
+  --success-light: rgba(16, 185, 129, 0.15);
+  --warning-light: rgba(245, 158, 11, 0.15);
+  --danger-light: rgba(239, 68, 68, 0.15);
+  --info-light: rgba(59, 130, 246, 0.15);
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.6);
+    }

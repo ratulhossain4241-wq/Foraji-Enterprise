@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<!-- admin/categories.html — ক্যাটাগরি ম্যানেজমেন্ট পেজ -->
+<html lang="bn" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ক্যাটাগরি — ফরাজী এন্টারপ্রাইজ অ্যাডমিন</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script src="config.js"></script>
+
+  <link rel="stylesheet" href="css/admin-variables.css" />
+  <link rel="stylesheet" href="css/admin-base.css" />
+  <link rel="stylesheet" href="css/admin-layout.css" />
+
+  <style>
+    /* Categories পেজ স্পেসিফিক — সেকশন ১১-৬ */
+    .cat-group-header {
+      background: var(--bg-tertiary);
+      padding: var(--space-3) var(--space-4);
+      font-weight: var(--font-weight-bold);
+      font-size: var(--font-size-base);
+      color: var(--brand-primary);
+      border-bottom: 2px solid var(--brand-primary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      user-select: none;
+    }
+    .cat-group-header:hover {
+      background: var(--border-color);
+    }
+    .cat-group-header .chevron {
+      transition: transform var(--transition-fast);
+    }
+    .cat-group-header.collapsed .chevron {
+      transform: rotate(-90deg);
+    }
+    .cat-group-body {
+      overflow: hidden;
+      transition: max-height var(--transition-slow);
+    }
+    .cat-group-body.collapsed {
+      max-height: 0 !important;
+    }
+    .cat-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--bg-overlay);
+      z-index: var(--z-modal);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-4);
+      opacity: 0;
+      transition: opacity var(--transition-base);
+    }
+    .cat-modal-overlay.show { opacity: 1; }
+    .cat-modal {
+      background: var(--bg-elevated);
+      border-radius: var(--radius-xl);
+      padding: var(--space-6);
+      max-width: 480px;
+      width: 100%;
+      box-shadow: var(--shadow-xl);
+    }
+    .cat-modal h3 {
+      margin-bottom: var(--space-5);
+    }
+    .cat-modal-actions {
+      display: flex;
+      gap: var(--space-3);
+      justify-content: flex-end;
+      margin-top: var(--space-5);
+    }
+    .cat-actions-cell {
+      display: flex;
+      gap: var(--space-2);
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-layout-wrapper" id="admin-layout"></div>
+
+  <script type="module" src="js/categories.js"></script>
+</body>
+</html>

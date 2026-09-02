@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- frontend/index.html — হোম পেজ -->
+<!-- frontend/index.html — হোম পেজ (সংশোধিত ও ফাইনাল) -->
 <html lang="bn" dir="ltr">
 <head>
   <meta charset="UTF-8" />
@@ -7,18 +7,21 @@
   <title>ফরাজী এন্টারপ্রাইজ — গ্যাসের চুলা ও রান্নাঘর সামগ্রী</title>
   <meta name="description" content="গ্যাসের চুলা, সিলিন্ডার, স্পেয়ার পার্টস ও রান্নাঘর সামগ্রীর বিশ্বস্ত দোকান। ক্যাশ অন ডেলিভারি।" />
 
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
+  <!-- Config (সিক্রেট) — সবার আগে -->
   <script src="config.js"></script>
 
+  <!-- CSS -->
   <link rel="stylesheet" href="css/variables.css" />
   <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="css/components.css" />
 
   <style>
-    /* Home পেজ স্পেসিফিক — সেকশন ১১-৬ */
+    /* Home Specific Styles — সেকশন ১১-৬ */
     .hero {
       background: var(--brand-gradient);
       color: #fff;
@@ -50,9 +53,6 @@
       margin: 0 auto var(--space-6);
       position: relative;
     }
-    .hero .btn {
-      position: relative;
-    }
     @media (max-width: 767px) {
       .hero {
         padding: var(--space-10) 0;
@@ -72,7 +72,6 @@
       background: var(--bg-secondary);
     }
 
-    /* Feature icons row */
     .features-row {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -215,8 +214,8 @@
         <div>
           <h4 class="footer-title">যোগাযোগ</h4>
           <div class="footer-links">
-            <a href="https://wa.me/" target="_blank" rel="noopener">WhatsApp</a>
-            <a href="https://t.me/" target="_blank" rel="noopener">Telegram</a>
+            <a href="#" id="footer-whatsapp-link" target="_blank" rel="noopener">WhatsApp</a>
+            <a href="#" id="footer-telegram-link" target="_blank" rel="noopener">Telegram</a>
           </div>
         </div>
       </div>
@@ -228,4 +227,4 @@
 
   <script type="module" src="js/home.js"></script>
 </body>
-              </html>
+        </html>

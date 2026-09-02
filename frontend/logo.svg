@@ -1,0 +1,40 @@
+<!-- frontend/logo.svg — ফরাজী এন্টারপ্রাইজ কাস্টম ভেক্টর লোগো -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <linearGradient id="flameGradPrimary" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#EA580C" />
+      <stop offset="60%" stop-color="#F97316" />
+      <stop offset="100%" stop-color="#FBBF24" />
+    </linearGradient>
+    <linearGradient id="flameGradCore" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#FBBF24" />
+      <stop offset="100%" stop-color="#FEF08A" />
+    </linearGradient>
+    <linearGradient id="burnerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#334155" />
+      <stop offset="100%" stop-color="#0F172A" />
+    </linearGradient>
+  </defs>
+
+  <!-- বার্নার বেস আউটার রিং -->
+  <circle cx="50" cy="65" r="28" fill="none" stroke="url(#burnerGrad)" stroke-width="4.5" />
+  
+  <!-- বার্নার ইনার রিং -->
+  <circle cx="50" cy="65" r="15" fill="none" stroke="#475569" stroke-width="2.5" />
+
+  <!-- গ্যাসের শিখা নির্গমন পোর্ট (৮টি ছিদ্র) -->
+  <circle cx="50" cy="42" r="2.2" fill="#EA580C" />
+  <circle cx="66" cy="49" r="2.2" fill="#EA580C" />
+  <circle cx="73" cy="65" r="2.2" fill="#EA580C" />
+  <circle cx="66" cy="81" r="2.2" fill="#EA580C" />
+  <circle cx="50" cy="88" r="2.2" fill="#EA580C" />
+  <circle cx="34" cy="81" r="2.2" fill="#EA580C" />
+  <circle cx="27" cy="65" r="2.2" fill="#EA580C" />
+  <circle cx="34" cy="49" r="2.2" fill="#EA580C" />
+
+  <!-- প্রধান আগুনের শিখা -->
+  <path d="M50 12 C50 12 66 32 66 48 C66 57 58.8 64 50 64 C41.2 64 34 57 34 48 C34 32 50 12 50 12 Z" fill="url(#flameGradPrimary)" />
+
+  <!-- ভেতরের উজ্জ্বল শিখা -->
+  <path d="M50 26 C50 26 59 40 59 50 C59 55 55 59 50 59 C45 59 41 55 41 50 C41 40 50 26 50 26 Z" fill="url(#flameGradCore)" opacity="0.95" />
+</svg>
